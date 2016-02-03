@@ -1,0 +1,90 @@
+<html>
+<head>
+	<title>Just Try</title>
+	<style >
+
+	</style>
+</head>
+<body>
+	<div id="chat">
+	</div>
+	<form id="send-message">
+		推送标题<input size="35" id = "message-title"></br>
+		推送内容<input size="35" id = "message-content"></br>
+		活动链接<input size="35" id = "promotion-link"></br>
+		接收对象<input size="35" id = "pm-to"></br>
+
+		发送方式</br>
+		<ul>
+		<label for="sendtype_0"><input type="radio" id="sendtype_0" value="broadcast" name="recipient_type" checked="checked"> 广播(所有人)</label>
+		<label for="sendtype_1"><input type="radio" id="sendtype_1" value="tags" name="recipient_type" > 设备标签(Tag)</label></br>
+
+		<li id="select_tags" style="display: list-item;">
+			<label><input name="tags" type="checkbox" value="" />理智型 </label> 
+			<label><input name="tags" type="checkbox" value="" />贪婪型 </label> 
+			<label><input name="tags" type="checkbox" value="" />冲动型 </label> 
+			<label><input name="tags" type="checkbox" value="" />舆论型 </label> 
+			<label><input name="tags" type="checkbox" value="" />VIP型 </label> 
+			<label><input name="tags" type="checkbox" value="" />谨慎型 </label> 
+			<label><input name="tags" type="checkbox" value="" />习惯型 </label> 
+			<label><input name="tags" type="checkbox" value="" />感情型 </label> 
+			<label><input name="tags" type="checkbox" value="" />随意型 </label> 
+
+
+		</li>
+		</ul>
+
+
+
+
+
+		<input type="submit">
+
+		
+	</form>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	jQuery(function($){
+		var socket =io.connect();
+		var $messageForm =$('#send-message');
+		var $messageTitle =$('#message-title');
+		var $messageContent =$('#message-content');
+		var $promotionLink =$('#promotion-link');
+		var $pmTo =$('#pm-to');
+
+		var $chat = $('#chat');
+
+		$messageForm.submit(function(e){
+			e.preventDefault();
+			// socket.emit('send message',$messageBox.val());
+			// socket.emit('send message',{
+			// 	messaget:$messageTitle.val(),
+			// 	messagec:$messageContent.val(),
+			// 	promotionl:$promotionLink.val(),
+			// });
+			socket.emit('private message',{
+				messaget:$messageTitle.val(),
+				messagec:$messageContent.val(),
+				promotionl:$promotionLink.val(),
+				pmto:$pmTo.val()
+			});
+
+
+
+			$messageTitle.val('');
+			$messageContent.val('');
+			$promotionLink.val('');
+			$pmTo.val('');
+		});
+
+		// socket.on('new message',function(data){
+		// 	$chat.append(data.message+"<br/>");
+
+		// });
+	});
+
+	</script>
+ 
+</body>
+</html>
